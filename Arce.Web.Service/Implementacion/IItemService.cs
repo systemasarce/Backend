@@ -1,0 +1,18 @@
+﻿using Arce.Web.Entity;
+using Arce.Web.Service.Comunes;
+
+namespace Arce.Web.Service;
+
+public interface IItemService
+{
+    Task<ServiceResponseList<ItemEntity>?> ListarItem(string? Itm_Cod, string? Itm_Des, int? Itm_Grp, int? Itm_Sub_Grp, int? Itm_Det_Mat_Id,string? Flg_Est);
+    Task<ServiceResponse<int>> RegistrarItem(ItemEntity valores);
+    Task<ServiceResponse<int>> ActualizarItem(ItemEntity valores);
+    Task<ServiceResponse<int>> ActualizarStockItem(ItemEntity valores);
+    Task<ServiceResponse<int>> ActualizarStockItemIngresoDirecto(ItemEntity valores);
+    Task<ServiceResponse<int>> ActualizarStockItemSalida(ItemEntity valores);
+    Task<ServiceResponseList<ItemEntity>?> ListarStocksItems(int? Usr_Cen_Cos_Id, int? Alm_Det_Itm_Id);
+    Task<ServiceResponse<int>> ActualizarStockItemSalidaAnulacion(ItemEntity valores);
+    Task<ServiceResponseList<ReporteItemOcos>?> ReporteOCOS(DateTime? Fec_Ini, DateTime? Fec_Fin, int? Ped_Id, int? Ord_Com_Id, int? Ped_Tip_Com,
+        int? Mon_Id, string? Usr_Reg, int? Ped_Cen_Cos_Asg, int? Ord_Com_For_Pag, int? Ord_Com_Prv);
+}

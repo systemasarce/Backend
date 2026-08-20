@@ -1,0 +1,179 @@
+using Arce.Web.Data;
+using Arce.Web.Data.Inspecciones.Cliente;
+using Arce.Web.Data.Inspecciones.Jefe;
+using Arce.Web.Data.Inspecciones.TipoReporte;
+using Arce.Web.Service.Inspecciones.Motivo;
+using Arce.Web.Data.Inspecciones.Motivo;
+using Arce.Web.Data.Inspecciones.Clima;
+using Arce.Web.Data.Inspecciones.Tarea;
+using Arce.Web.Data.Inspecciones.SubContrata;
+using Arce.Web.Data.Inspecciones.Subestaciones;
+using Arce.Web.Data.Inspecciones.ClienteTjh2b;
+using Arce.Web.Data.Inspecciones.TipoInspeccion;
+using Arce.Web.Data.Inspecciones.PreguntasHse;
+using Arce.Web.Data.Inspecciones.TipoRiesgo;
+using Arce.Web.Data.TJH2B;
+using Arce.Web.Service;
+using Arce.Web.Service.Inspecciones.Jefe;
+using Arce.Web.Service.Inspecciones.TipoReporte;
+using Arce.Web.Service.Inspecciones.Clima;
+using Arce.Web.Service.Inspecciones.Tarea;
+using Arce.Web.Service.Inspecciones.SubContrata;
+using Arce.Web.Service.Inspecciones.Subestaciones;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        /*DESARROLLO*/
+
+        // policy.WithOrigins(
+        //             "http://localhost:4200",
+        //             "https://localhost:4200"
+        //             )  // Especifica el origen permitido
+        //         .AllowAnyHeader()                     // Permitir cualquier encabezado
+        //         .AllowAnyMethod()                   // Permitir cualquier método (GET, POST, etc.)
+        //         .AllowCredentials();
+
+        /*PRODUCCION*/
+
+        policy.WithOrigins(
+        // "http://192.168.1.36",
+        // "https://192.168.1.36",
+        "https://gestion.montajeseingenieriaarceperu.com",
+        "https://gestion.montajeseingenieriaarceperu.com:443"
+        )  // Especifica el origen permitido
+        .AllowAnyHeader()                     // Permitir cualquier encabezado
+        .AllowAnyMethod();                   // Permitir cualquier método (GET, POST, etc.)
+
+    });
+});
+
+#region INYECTION DEPENDECY
+
+//Inyection Services
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IProveedorService, ProveedorService>();
+builder.Services.AddScoped<IFormaPagoService, FormaPagoService>();
+builder.Services.AddScoped<ITipoServicioService, TipoServicioService>();
+builder.Services.AddScoped<IUnidadMedidaService, UnidadMedidaService>();
+builder.Services.AddScoped<IJefeService, JefeService>();
+builder.Services.AddScoped<ITipoReporteService, TipoReporteService>();
+builder.Services.AddScoped<IMotivoService, MotivoService>();
+builder.Services.AddScoped<IClimaService, ClimaService>();
+builder.Services.AddScoped<ITareaService, TareaService>();
+builder.Services.AddScoped<ISubContrataService, SubContrataService>();
+builder.Services.AddScoped<ICentroCostoService, CentroCostoService>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IGrupoItemService, GrupoItemService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IBancoService, BancoService>();
+builder.Services.AddScoped<IMonedaService, MonedaService>();
+builder.Services.AddScoped<IOrdenCompraService, OrdenCompraService>();
+builder.Services.AddScoped<IAlmacenService, AlmacenService>();
+builder.Services.AddScoped<IDetraccionService, DetraccionService>();
+builder.Services.AddScoped<ISubGrupoItemService, SubGrupoItemService>();
+builder.Services.AddScoped<IItemDetalleMaterialService, ItemDetalleMaterialService>();
+builder.Services.AddScoped<IUbicacionService, UbicacionService>();
+
+builder.Services.AddScoped<IInspeccionesService, InspeccionesService>();
+builder.Services.AddScoped<ISubestacionesService, SubestacionesService>();
+
+builder.Services.AddScoped<IDireccionEntregaService, DireccionEntregaService>();
+builder.Services.AddScoped<IEnviarCorreoService, EnviarCorreoService>();
+builder.Services.AddScoped<IPerfilService, PerfilService>();
+builder.Services.AddScoped<IAccesoService, AccesoService>();
+builder.Services.AddScoped<ICargoService, CargoService>();
+builder.Services.AddScoped<IAsignacionService, AsignacionService>();
+builder.Services.AddScoped<IClienteWbService, ClienteWbService>();
+builder.Services.AddScoped<IObraService, ObraService>();
+
+
+//Inyection Repository
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
+builder.Services.AddScoped<IFormaPagoRepository, FormaPagoRepository>();
+builder.Services.AddScoped<ITipoServicioRepository, TipoServicioRepository>();
+builder.Services.AddScoped<IUnidadMedidaRepository, UnidadMedidaRepository>();
+builder.Services.AddScoped<IJefeRepository, JefeRepository>();
+builder.Services.AddScoped<ITipoReporteRepository, TipoReporteRepository>();
+builder.Services.AddScoped<IMotivoRepository, MotivoRepository>();
+builder.Services.AddScoped<IClimaRepository, ClimaRepository>();
+builder.Services.AddScoped<ITareaRepository, TareaRepository>();
+builder.Services.AddScoped<ISubContrataRepository, SubContrataRepository>();
+builder.Services.AddScoped<ICentroCostoRepository, CentroCostoRepository>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<IGrupoItemRepository, GrupoItemRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IBancoRepository, BancoRepository>();
+builder.Services.AddScoped<IMonedaRepository, MonedaRepository>();
+builder.Services.AddScoped<IOrdenCompraRepository, OrdenCompraRepository>();
+builder.Services.AddScoped<IAlmacenRepository, AlmacenRepository>();
+builder.Services.AddScoped<IDetraccionRepository, DetraccionRepository>();
+builder.Services.AddScoped<ISubGrupoItemRepository, SubGrupoItemRepository>();
+builder.Services.AddScoped<IItemDetalleMaterialRepository, ItemDetalleMaterialRepository>();
+builder.Services.AddScoped<IUbicacionRepository, UbicacionRepository>();
+builder.Services.AddScoped<IInspeccionesRepository, InspeccionesRepository>();
+builder.Services.AddScoped<ISubestacionesRepository, SubestacionesRepository>();
+builder.Services.AddScoped<IDireccionEntregaRepository, DireccionEntregaRepository>();
+builder.Services.AddScoped<IPerfilRepository, PerfilRepository>();
+builder.Services.AddScoped<IAccesoRepository, AccesoRepository>();
+builder.Services.AddScoped<ICargoRepository, CargoRepository>();
+builder.Services.AddScoped<IAsignacionRepository, AsignacionRepository>();
+
+
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>(); // ← AGREGADO
+builder.Services.AddScoped<ICotizacionTjh2bRepository, CotizacionTjh2bRepository>();
+builder.Services.AddScoped<IClienteTjh2bRepository, ClienteTjh2bRepository>();
+builder.Services.AddScoped<ITipoInspeccionRepository, TipoInspeccionRepository>();
+builder.Services.AddScoped<IPreguntasHseRepository, PreguntasHseRepository>();
+builder.Services.AddScoped<ITipoRiesgoRepository, TipoRiesgoRepository>();
+builder.Services.AddScoped<IClienteWbRepository, ClienteWbRepository>();
+builder.Services.AddScoped<IObraRepository, ObraRepository>();
+
+#endregion
+
+
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
+    // Abrir Swagger automáticamente en el navegador
+    var swaggerUrl = "http://localhost:5218/swagger/index.html";
+    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+    {
+        FileName = swaggerUrl,
+        UseShellExecute = true
+    });
+}
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("AllowAngularApp");
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

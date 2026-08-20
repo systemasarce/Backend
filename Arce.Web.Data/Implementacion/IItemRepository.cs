@@ -1,0 +1,17 @@
+﻿using Arce.Web.Entity;
+
+namespace Arce.Web.Data;
+
+public interface IItemRepository
+{
+    Task<IEnumerable<ItemEntity>?> ListarItem(string? Itm_Cod, string? Itm_Des, int? Itm_Grp, int? Itm_Sub_Grp, int? Itm_Det_Mat_Id,string? Flg_Est);
+    Task<(int Codigo, string Mensaje)> RegistrarItem(ItemEntity valores);
+    Task<(int Codigo, string Mensaje)> ActualizarItem(ItemEntity valores);
+    Task<(int Codigo, string Mensaje)> ActualizarStockItem(ItemEntity valores);
+    Task<(int Codigo, string Mensaje)> ActualizarStockItemIngresoDirecto(ItemEntity valores);
+    Task<(int Codigo, string Mensaje)> ActualizarStockItemSalida(ItemEntity valores);
+    Task<IEnumerable<ItemEntity>?> ListarStocksItems(int? Usr_Cen_Cos_Id, int? Alm_Det_Itm_Id);
+    Task<(int Codigo, string Mensaje)> ActualizarStockItemSalidaAnulacion(ItemEntity valores);
+    Task<IEnumerable<ReporteItemOcos>?> ReporteOCOS(DateTime? Fec_Ini, DateTime? Fec_Fin, int? Ped_Id, int? Ord_Com_Id, int? Ped_Tip_Com,
+        int? Mon_Id, string? Usr_Reg, int? Ped_Cen_Cos_Asg, int? Ord_Com_For_Pag, int? Ord_Com_Prv);
+}

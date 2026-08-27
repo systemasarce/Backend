@@ -451,4 +451,32 @@ public class AlmacenService: IAlmacenService
             return result;
         }
     }
+
+    public async Task<ServiceResponseList<StockExportEntity>?> ListarStockExport()
+    {
+        var result = new ServiceResponseList<StockExportEntity>();
+        try
+        {
+            var resultData = await _repository.ListarStockExport();
+
+            if (resultData == null || !resultData.Any())
+            {
+                result.Success = true;
+                result.Message = "No existe información";
+                return result;
+            }
+
+            result.Success = true;
+            result.Message = "Completado con éxito";
+            result.Elements = resultData.ToList();
+            result.TotalElements = resultData.ToList().Count();
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            result.Message = "Excepcion no controlada " + ex.Message;
+            return result;
+        }
+    }
 }

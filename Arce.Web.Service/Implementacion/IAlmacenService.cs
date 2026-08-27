@@ -23,4 +23,5 @@ public interface IAlmacenService
         DateTime? Fec_Ini, DateTime? Fec_Fin , string? Alm_Sol_Dni, int? Alm_Cen_Cos, int? Alm_Destino,
         int? Alm_Tip_Ing, string? Alm_Usr_Apr, int? Alm_Mov_Ori
         );
+    Task<ServiceResponseList<StockExportEntity>?> ListarStockExport();
 }

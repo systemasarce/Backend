@@ -508,5 +508,64 @@ public class AlmacenRepository: IAlmacenRepository
         }
     }
 
+    public async Task<IEnumerable<StockExportEntity>?> ListarStockExport()
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            const string sql = @"
+                SELECT
+                    i.Itm_Cod,
+                    i.Itm_Des,
+                    c.Cen_Cos_Des AS CECO,
+                    u.Ubi_Des AS UBICACION,
+                    SUM(
+                        CASE
+                            WHEN a.Flg_Est_Apr = 'I'
+                            THEN ISNULL(d.Alm_Det_Can, 0)
+                            WHEN a.Flg_Est_Apr = 'S'
+                             AND a.Flg_Est_Alm = 'D'
+                            THEN -ISNULL(d.Alm_Det_Can, 0)
+                            ELSE 0
+                        END
+                    ) AS Stock
+                FROM Lg_Item i
+                INNER JOIN Lg_Almacen_Det_Ing d
+                    ON i.Itm_Id = d.Alm_Det_Itm_Id
+                INNER JOIN Lg_Almacen a
+                    ON d.Alm_Mov_Id = a.Alm_Mov_Id
+                INNER JOIN Lg_Cen_Cos c
+                    ON d.Alm_Det_Cen_Cos_Id = c.Cen_Cos_Id
+                INNER JOIN Lg_Ubicacion u
+                    ON a.Alm_Ubi = u.Ubi_Id
+                WHERE i.Flg_Est = 'A'
+                GROUP BY
+                    i.Itm_Cod,
+                    i.Itm_Des,
+                    c.Cen_Cos_Des,
+                    u.Ubi_Des
+                HAVING
+                    SUM(
+                        CASE
+                            WHEN a.Flg_Est_Apr = 'I'
+                            THEN ISNULL(d.Alm_Det_Can, 0)
+                            WHEN a.Flg_Est_Apr = 'S'
+                             AND a.Flg_Est_Alm = 'D'
+                            THEN -ISNULL(d.Alm_Det_Can, 0)
+                            ELSE 0
+                        END
+                    ) <> 0
+                ORDER BY
+                    i.Itm_Cod ASC;";
+
+            var result = await connection.QueryAsync<StockExportEntity>(
+                sql
+                , commandType: CommandType.Text
+            );
+
+            return result;
+        }
+    }
 
 }

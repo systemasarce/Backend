@@ -260,5 +260,21 @@ namespace MyApp.Namespace
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getListarStockExport")]
+        public async Task<IActionResult> ListarStockExport()
+        {
+            var result = await _service.ListarStockExport();
+
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }    
 }

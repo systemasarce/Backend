@@ -2,6 +2,8 @@ using Arce.Web.Data;
 using Arce.Web.Data.Inspecciones.Cliente;
 using Arce.Web.Data.Inspecciones.Jefe;
 using Arce.Web.Data.Inspecciones.TipoReporte;
+using Arce.Web.Data.Inspecciones.Grupo;
+using Arce.Web.Data.Inspecciones.GrupoDetalle;
 using Arce.Web.Service.Inspecciones.Motivo;
 using Arce.Web.Data.Inspecciones.Motivo;
 using Arce.Web.Data.Inspecciones.Clima;
@@ -16,6 +18,8 @@ using Arce.Web.Data.TJH2B;
 using Arce.Web.Service;
 using Arce.Web.Service.Inspecciones.Jefe;
 using Arce.Web.Service.Inspecciones.TipoReporte;
+using Arce.Web.Service.Inspecciones.Grupo;
+using Arce.Web.Service.Inspecciones.GrupoDetalle;
 using Arce.Web.Service.Inspecciones.Clima;
 using Arce.Web.Service.Inspecciones.Tarea;
 using Arce.Web.Service.Inspecciones.SubContrata;
@@ -40,24 +44,24 @@ builder.Services.AddCors(options =>
     {
         /*DESARROLLO*/
 
-        //  policy.WithOrigins(
-        //               "http://localhost:4200",
-        //               "https://localhost:4200"
-        //              )  // Especifica el origen permitido
-        //           .AllowAnyHeader()                     // Permitir cualquier encabezado
-        //           .AllowAnyMethod()                   // Permitir cualquier método (GET, POST, etc.)
-        //           .AllowCredentials();
+          policy.WithOrigins(
+                       "http://localhost:4200",
+                       "https://localhost:4200"
+                       )  // Especifica el origen permitido
+                   .AllowAnyHeader()                     // Permitir cualquier encabezado
+                   .AllowAnyMethod()                   // Permitir cualquier método (GET, POST, etc.)
+                   .AllowCredentials();
 
         /*PRODUCCION*/
 
-          policy.WithOrigins(
-         "http://192.168.1.36",
-          "https://192.168.1.36",
-          "https://gestion.montajeseingenieriaarceperu.com",
-          "https://gestion.montajeseingenieriaarceperu.com:443"
-          )  // Especifica el origen permitido
-          .AllowAnyHeader()                     // Permitir cualquier encabezado
-          .AllowAnyMethod();                   // Permitir cualquier método (GET, POST, etc.)
+          //policy.WithOrigins(
+          //"http://192.168.1.36",
+          //"https://192.168.1.36",
+          //"https://gestion.montajeseingenieriaarceperu.com",
+          //"https://gestion.montajeseingenieriaarceperu.com:443"
+          //)  // Especifica el origen permitido
+          //.AllowAnyHeader()                     // Permitir cualquier encabezado
+          //.AllowAnyMethod();                   // Permitir cualquier método (GET, POST, etc.)
 
     });
 });
@@ -72,6 +76,8 @@ builder.Services.AddScoped<ITipoServicioService, TipoServicioService>();
 builder.Services.AddScoped<IUnidadMedidaService, UnidadMedidaService>();
 builder.Services.AddScoped<IJefeService, JefeService>();
 builder.Services.AddScoped<ITipoReporteService, TipoReporteService>();
+builder.Services.AddScoped<IGrupoService, GrupoService>();
+builder.Services.AddScoped<IGrupoDetalleService, GrupoDetalleService>();
 builder.Services.AddScoped<IMotivoService, MotivoService>();
 builder.Services.AddScoped<IClimaService, ClimaService>();
 builder.Services.AddScoped<ITareaService, TareaService>();
@@ -110,6 +116,8 @@ builder.Services.AddScoped<ITipoServicioRepository, TipoServicioRepository>();
 builder.Services.AddScoped<IUnidadMedidaRepository, UnidadMedidaRepository>();
 builder.Services.AddScoped<IJefeRepository, JefeRepository>();
 builder.Services.AddScoped<ITipoReporteRepository, TipoReporteRepository>();
+builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
+builder.Services.AddScoped<IGrupoDetalleRepository, GrupoDetalleRepository>();
 builder.Services.AddScoped<IMotivoRepository, MotivoRepository>();
 builder.Services.AddScoped<IClimaRepository, ClimaRepository>();
 builder.Services.AddScoped<ITareaRepository, TareaRepository>();

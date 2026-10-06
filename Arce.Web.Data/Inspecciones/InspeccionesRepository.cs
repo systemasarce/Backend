@@ -688,6 +688,7 @@ ORDER BY t1.Observacion_Id DESC",
                     Procedimiento_Trabajo= reader.IsDBNull(11) ? null : reader.GetString(11),
                     Tipo_Nombre          = reader.IsDBNull(12) ? null : reader.GetString(12),
                     Estado               = reader.IsDBNull(13) ? null : reader.GetString(13),
+                    Prevencion_Equipo     = reader.IsDBNull(14) ? null : reader.GetString(14),
                 });
             }
 
@@ -712,6 +713,7 @@ ORDER BY t1.Observacion_Id DESC",
                 parametros.Add("@Orden_Trabajo", valores.Orden_Trabajo);
                 parametros.Add("@Procedimiento_Trabajo", valores.Procedimiento_Trabajo);
                 parametros.Add("@Tipo_Id", valores.Tipo_Id);
+                parametros.Add("@Prevencion_Equipo", valores.Prevencion_Equipo);
                 parametros.Add("@Usr_Reg", valores.Usr_Reg);
 
                 await connection.ExecuteAsync(
@@ -1296,6 +1298,7 @@ public async Task<(int Codigo, string Mensaje)> EliminarStopReport(EliminarStopR
             parametros.Add("@Orden_Trabajo", valores.Orden_Trabajo);
             parametros.Add("@Procedimiento_Trabajo", valores.Procedimiento_Trabajo);
             parametros.Add("@Tipo_Id", valores.Tipo_Id);
+            parametros.Add("@Prevencion_Equipo", valores.Prevencion_Equipo);
             parametros.Add("@Usr_Mod", valores.Usr_Mod);
             parametros.Add("@Estado", valores.Estado);
 

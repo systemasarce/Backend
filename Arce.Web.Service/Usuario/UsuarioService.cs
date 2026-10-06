@@ -1,4 +1,4 @@
-﻿using Arce.Web.Data;
+using Arce.Web.Data;
 using Arce.Web.Service.Comunes;
 using Arce.Web.Entity.Usuario;
 
@@ -28,6 +28,53 @@ public class UsuarioService: IUsuarioService
             result.Message = "Completado con éxito";
             result.Elements = resultData.ToList();
             result.TotalElements = resultData.ToList().Count();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            result.Message = "Excepción no controlada " + ex.Message;
+            return result;
+        }
+    }
+
+    public async Task<ServiceResponseList<UsuarioEntity>?> ListarUsuariosDniNombre()
+    {
+        var result = new ServiceResponseList<UsuarioEntity>();
+        try
+        {
+            var resultData = await _usuarioRepository.ListarUsuariosDniNombre();
+            result.Success = true;
+            result.Message = resultData == null || !resultData.Any() ? "No existe información" : "Completado con éxito";
+            result.Elements = resultData?.ToList() ?? new List<UsuarioEntity>();
+            result.TotalElements = result.Elements.Count();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            result.Message = "Excepción no controlada " + ex.Message;
+            return result;
+        }
+    }
+
+    public async Task<ServiceResponseList<UsuarioEntity>?> ConsultarDatosUsuarioDni(string Usr_Doc_Nro)
+    {
+        var result = new ServiceResponseList<UsuarioEntity>();
+        try
+        {
+            var resultData = await _usuarioRepository.ConsultarDatosUsuarioDni(Usr_Doc_Nro);
+            if (resultData == null || !resultData.Any())
+            {
+                result.Success = true;
+                result.Message = "No existe información";
+                result.Elements = new List<UsuarioEntity>();
+                result.TotalElements = 0;
+                return result;
+            }
+
+            result.Success = true;
+            result.Message = "Completado con éxito";
+            result.Elements = resultData.ToList();
+            result.TotalElements = result.Elements.Count();
             return result;
         }
         catch (Exception ex)

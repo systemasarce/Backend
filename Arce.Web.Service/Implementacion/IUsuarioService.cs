@@ -5,6 +5,8 @@ namespace Arce.Web.Service;
 public interface IUsuarioService
 {
     Task<ServiceResponseList<UsuarioEntity>?> ListarUsuarioActivo(int? Usr_Id, string? Usr_Cod, string? Usr_Nom, string? Flg_Est);
+    Task<ServiceResponseList<UsuarioEntity>?> ListarUsuariosDniNombre();
+    Task<ServiceResponseList<UsuarioEntity>?> ConsultarDatosUsuarioDni(string Usr_Doc_Nro);
     Task<ServiceResponse<int>> RegistrarUsuario(UsuarioEntity valores);
     Task<ServiceResponse<int>> ActualizarUsuario(UsuarioEntity valores);
     Task<ServiceResponseList<UsuarioEntity>?> ObtenerAccesoUsuario(string? Usr_Cod, string? Usr_Pass);

@@ -340,6 +340,7 @@ public class EliminarStopReportEntity
         public string? Orden_Trabajo { get; set; }
         public string? Procedimiento_Trabajo { get; set; }
         public int? Tipo_Id { get; set; }
+        public string? Prevencion_Equipo { get; set; }
         public string? Usr_Reg { get; set; }
     }
 
@@ -355,6 +356,7 @@ public class EliminarStopReportEntity
         public string? Orden_Trabajo { get; set; }
         public string? Procedimiento_Trabajo { get; set; }
         public int? Tipo_Id { get; set; }
+        public string? Prevencion_Equipo { get; set; }
         public string? Usr_Mod { get; set; }
         public string? Estado { get; set; }
     }
@@ -397,6 +399,7 @@ public class EliminarStopReportEntity
         public string? Procedimiento_Trabajo { get; set; }  // pos 11
         public string? Tipo_Nombre           { get; set; }  // pos 12
         public string? Estado                { get; set; }  // pos 13
+        public string? Prevencion_Equipo     { get; set; }  // pos 14
     }
 
     // ── Medio Ambiente ────────────────────────────────────────────────

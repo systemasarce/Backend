@@ -34,6 +34,34 @@ public class UsuarioRepository: IUsuarioRepository
         }
     }
 
+    public async Task<IEnumerable<UsuarioEntity>?> ListarUsuariosDniNombre()
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            return await connection.QueryAsync<UsuarioEntity>(
+                "SELECT t1.Usr_Id, t1.Usr_Doc_Nro, t1.Usr_Nom FROM Sg_Usuario t1 ORDER BY t1.Usr_Doc_Nro",
+                commandType: CommandType.Text
+            );
+        }
+    }
+
+    public async Task<IEnumerable<UsuarioEntity>?> ConsultarDatosUsuarioDni(string Usr_Doc_Nro)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            var parametros = new DynamicParameters();
+            parametros.Add("@Usr_Doc_Nro", Usr_Doc_Nro);
+
+            return await connection.QueryAsync<UsuarioEntity>(
+                "[dbo].[SP_Consulta_Datos_Usuario_DNI]",
+                parametros,
+                commandType: CommandType.StoredProcedure
+            );
+        }
+    }
+
     public async Task<(int Codigo, string Mensaje)> RegistrarUsuario(UsuarioEntity valores)
     {
         using (var connection = new SqlConnection(_connectionString))

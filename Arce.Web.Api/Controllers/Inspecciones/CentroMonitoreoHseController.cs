@@ -178,6 +178,39 @@ ORDER BY ISNULL(t1.Fec_Mod, t1.Fec_Reg) DESC, t1.Centro_HSE_Cod DESC;";
     }
 
     [HttpGet]
+    [Route("getArchivosCentroMonitoreoHse")]
+    public async Task<IActionResult> GetArchivosCentroMonitoreoHse([FromQuery] int Centro_HSE_Id)
+    {
+        if (Centro_HSE_Id <= 0)
+        {
+            return BadRequest(new { Success = false, Message = "El identificador del Centro de Monitoreo HSE es obligatorio." });
+        }
+
+        using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        const string sql = @"
+            SELECT
+                Centro_Hse_Documento AS Centro_HSE_Documento,
+                Centro_HSE_Audio
+            FROM Ins_Centro_HSE
+            WHERE Centro_HSE_Id = @Centro_HSE_Id";
+
+        var fila = await connection.QueryFirstOrDefaultAsync(sql, new { Centro_HSE_Id });
+
+        if (fila is null)
+        {
+            return NotFound(new { Success = false, Message = "No se encontró el Centro de Monitoreo HSE." });
+        }
+
+        return Ok(new
+        {
+            Centro_HSE_Documento = ObtenerTexto((IDictionary<string, object>)fila, "Centro_HSE_Documento", "Centro_Hse_Documento") ?? string.Empty,
+            Centro_HSE_Audio = ObtenerTexto((IDictionary<string, object>)fila, "Centro_HSE_Audio") ?? string.Empty
+        });
+    }
+
+    [HttpGet]
     [Route("getMostrarActualizarCentroMonitoreoHse")]
 
     public async Task<IActionResult> MostrarActualizarCentroMonitoreoHse([FromQuery] int Centro_HSE_Id)
@@ -378,16 +411,22 @@ ORDER BY ISNULL(t1.Fec_Mod, t1.Fec_Reg) DESC, t1.Centro_HSE_Cod DESC;";
         var comentarioFila = (await multi.ReadAsync()).FirstOrDefault();
 
         string? centroComentario = null;
+        string? centroDocumento = null;
+        string? centroAudio = null;
         if (comentarioFila is not null)
         {
             var dict = (IDictionary<string, object>)comentarioFila;
             centroComentario = ObtenerTexto(dict, "Centro_Comentario", "centro_Comentario");
+            centroDocumento = ObtenerTexto(dict, "Centro_Hse_Documento", "Centro_HSE_Documento", "centro_Hse_Documento", "centro_HSE_Documento");
+            centroAudio = ObtenerTexto(dict, "Centro_HSE_Audio", "centro_HSE_Audio");
         }
 
         return Ok(new
         {
             Detalles = detalles,
-            Centro_Comentario = centroComentario ?? string.Empty
+            Centro_Comentario = centroComentario ?? string.Empty,
+            Centro_HSE_Documento = centroDocumento ?? string.Empty,
+            Centro_HSE_Audio = centroAudio ?? string.Empty
         });
     }
 

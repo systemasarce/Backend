@@ -32,6 +32,41 @@ namespace MyApp.Namespace
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListarUsuariosDniNombre")]
+        public async Task<IActionResult> ListarUsuariosDniNombre()
+        {
+            var result = await _usuarioService.ListarUsuariosDniNombre();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getConsultaDatosUsuarioDni")]
+        public async Task<IActionResult> ConsultarDatosUsuarioDni(string? Usr_Doc_Nro)
+        {
+            if (string.IsNullOrWhiteSpace(Usr_Doc_Nro))
+            {
+                return BadRequest(new { Success = false, Message = "El DNI es obligatorio." });
+            }
+
+            var result = await _usuarioService.ConsultarDatosUsuarioDni(Usr_Doc_Nro.Trim());
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         [HttpPost]
         [Route("postRegistrarUsuario")]
         public async Task<IActionResult> RegistrarUsuario([FromBody] UsuarioEntity valores)

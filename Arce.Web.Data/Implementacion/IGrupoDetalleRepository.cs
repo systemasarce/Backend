@@ -10,7 +10,8 @@ public interface IGrupoDetalleRepository
         string? Detalle_Nombre,
         int? Detalle_Valor,
         string? Grupo_Nombre,
-        string? Estado);
+        string? Estado,
+        string? Grupo_Descripcion);
 
     Task<(int Codigo, string Mensaje)> RegistrarGrupoDetalle(GrupoDetalleEntity valores);
     Task<(int Codigo, string Mensaje)> ActualizarGrupoDetalle(GrupoDetalleEntity valores);

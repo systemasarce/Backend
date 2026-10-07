@@ -22,7 +22,8 @@ public class GrupoDetalleRepository : IGrupoDetalleRepository
         string? Detalle_Nombre,
         int? Detalle_Valor,
         string? Grupo_Nombre,
-        string? Estado)
+        string? Estado,
+        string? Grupo_Descripcion)
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -34,6 +35,7 @@ public class GrupoDetalleRepository : IGrupoDetalleRepository
         parametros.Add("@Detalle_Valor", Detalle_Valor ?? 0);
         parametros.Add("@Grupo_Nombre", Grupo_Nombre ?? string.Empty);
         parametros.Add("@Estado", NormalizarEstado(Estado) ?? "A");
+        parametros.Add("@Grupo_Descripcion", Grupo_Descripcion ?? string.Empty);
 
         return await connection.QueryAsync<GrupoDetalleEntity>(
             "[dbo].[SP_Filtrar_Grupo_Detalle]",

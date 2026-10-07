@@ -24,10 +24,11 @@ public class GrupoDetalleController : ControllerBase
         string? Detalle_Nombre,
         int? Detalle_Valor,
         string? Grupo_Nombre,
-        string? Estado)
+        string? Estado,
+        string? Grupo_Descripcion)
     {
         var result = await _service.ListarGrupoDetalle(
-            Detalle_Id, Detalle_Cod, Detalle_Nombre, Detalle_Valor, Grupo_Nombre, Estado);
+            Detalle_Id, Detalle_Cod, Detalle_Nombre, Detalle_Valor, Grupo_Nombre, Estado, Grupo_Descripcion);
 
         if (result!.Success)
         {

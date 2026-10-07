@@ -11,7 +11,8 @@ public interface IGrupoDetalleService
         string? Detalle_Nombre,
         int? Detalle_Valor,
         string? Grupo_Nombre,
-        string? Estado);
+        string? Estado,
+        string? Grupo_Descripcion);
 
     Task<ServiceResponse<int>> RegistrarGrupoDetalle(GrupoDetalleEntity valores);
     Task<ServiceResponse<int>> ActualizarGrupoDetalle(GrupoDetalleEntity valores);

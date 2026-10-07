@@ -16,7 +16,7 @@ public class GrupoRepository : IGrupoRepository
         _connectionString = configuration.GetConnectionString("Connection")!;
     }
 
-    public async Task<IEnumerable<GrupoEntity>?> ListarGrupo(int? Grupo_Id, int? Grupo_Cod, string? Grupo_Nombre, string? Estado)
+    public async Task<IEnumerable<GrupoEntity>?> ListarGrupo(int? Grupo_Id, int? Grupo_Cod, string? Grupo_Nombre, string? Grupo_Descripcion, string? Estado)
     {
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
@@ -25,6 +25,7 @@ public class GrupoRepository : IGrupoRepository
         parametros.Add("@Grupo_Id", Grupo_Id ?? 0);
         parametros.Add("@Grupo_Cod", Grupo_Cod ?? 0);
         parametros.Add("@Grupo_Nombre", Grupo_Nombre ?? string.Empty);
+        parametros.Add("@Grupo_Descripcion", Grupo_Descripcion ?? string.Empty);
         parametros.Add("@Estado", NormalizarEstado(Estado) ?? "A");
 
         return await connection.QueryAsync<GrupoEntity>(
@@ -43,6 +44,7 @@ public class GrupoRepository : IGrupoRepository
         parametros.Add("@Grupo_Cod", valores.Grupo_Cod);
         parametros.Add("@Grupo_Nombre", valores.Grupo_Nombre);
         parametros.Add("@Usr_Reg", valores.Usr_Reg);
+        parametros.Add("@Grupo_Descripcion", valores.Grupo_Descripcion);
 
         try
         {
@@ -74,12 +76,13 @@ public class GrupoRepository : IGrupoRepository
         parametros.Add("@Usr_Mod", valores.Usr_Mod);
         parametros.Add("@Grupo_Cod", valores.Grupo_Cod);
         parametros.Add("@Grupo_Nombre", valores.Grupo_Nombre);
+        parametros.Add("@Grupo_Descripcion", valores.Grupo_Descripcion);
         parametros.Add("@Estado", NormalizarEstado(valores.Estado) ?? "A");
 
         try
         {
             await connection.ExecuteAsync(
-                "[dbo].[SP_Actualizar_Ins_Cargo]",
+                "[dbo].[SP_Actualizar_Ins_Grupo]",
                 parametros,
                 commandType: CommandType.StoredProcedure
             );

@@ -19,13 +19,14 @@ public class GrupoDetalleService : IGrupoDetalleService
         string? Detalle_Nombre,
         int? Detalle_Valor,
         string? Grupo_Nombre,
-        string? Estado)
+        string? Estado,
+        string? Grupo_Descripcion)
     {
         var result = new ServiceResponseList<GrupoDetalleEntity>();
         try
         {
             var resultData = await _repository.ListarGrupoDetalle(
-                Detalle_Id, Detalle_Cod, Detalle_Nombre, Detalle_Valor, Grupo_Nombre, Estado);
+                Detalle_Id, Detalle_Cod, Detalle_Nombre, Detalle_Valor, Grupo_Nombre, Estado, Grupo_Descripcion);
             var elements = (resultData ?? Enumerable.Empty<GrupoDetalleEntity>()).ToList();
 
             result.Success = true;

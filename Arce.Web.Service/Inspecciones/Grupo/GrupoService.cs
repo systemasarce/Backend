@@ -13,12 +13,12 @@ public class GrupoService : IGrupoService
         _repository = repository;
     }
 
-    public async Task<ServiceResponseList<GrupoEntity>?> ListarGrupo(int? Grupo_Id, int? Grupo_Cod, string? Grupo_Nombre, string? Estado)
+    public async Task<ServiceResponseList<GrupoEntity>?> ListarGrupo(int? Grupo_Id, int? Grupo_Cod, string? Grupo_Nombre, string? Grupo_Descripcion, string? Estado)
     {
         var result = new ServiceResponseList<GrupoEntity>();
         try
         {
-            var resultData = await _repository.ListarGrupo(Grupo_Id, Grupo_Cod, Grupo_Nombre, Estado);
+            var resultData = await _repository.ListarGrupo(Grupo_Id, Grupo_Cod, Grupo_Nombre, Grupo_Descripcion, Estado);
             var elements = (resultData ?? Enumerable.Empty<GrupoEntity>()).ToList();
 
             result.Success = true;

@@ -18,9 +18,9 @@ namespace Arce.Web.Api.Controllers.Inspecciones
 
         [HttpGet]
         [Route("getListarGrupo")]
-        public async Task<IActionResult> ListarGrupo(int? Grupo_Id, int? Grupo_Cod, string? Grupo_Nombre, string? Estado)
+        public async Task<IActionResult> ListarGrupo(int? Grupo_Id, int? Grupo_Cod, string? Grupo_Nombre, string? Grupo_Descripcion, string? Estado)
         {
-            var result = await _service.ListarGrupo(Grupo_Id, Grupo_Cod, Grupo_Nombre, Estado);
+            var result = await _service.ListarGrupo(Grupo_Id, Grupo_Cod, Grupo_Nombre, Grupo_Descripcion, Estado);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -39,6 +39,7 @@ namespace Arce.Web.Api.Controllers.Inspecciones
             {
                 Grupo_Cod = valores.Grupo_Cod,
                 Grupo_Nombre = valores.Grupo_Nombre,
+                Grupo_Descripcion = valores.Grupo_Descripcion,
                 Usr_Reg = valores.Usr_Reg
             };
 
@@ -62,6 +63,7 @@ namespace Arce.Web.Api.Controllers.Inspecciones
                 Grupo_Id = valores.Grupo_Id,
                 Grupo_Cod = valores.Grupo_Cod,
                 Grupo_Nombre = valores.Grupo_Nombre,
+                Grupo_Descripcion = valores.Grupo_Descripcion,
                 Estado = valores.Estado,
                 Usr_Mod = valores.Usr_Mod
             };
